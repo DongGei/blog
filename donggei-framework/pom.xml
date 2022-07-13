@@ -48,6 +48,12 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
         </dependency>
+<!--        因为javax.xml.bind在jdk8中有，但是在更高版本就没有了，所以我们加上就行-->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
         <!--mybatisPlus依赖-->
         <dependency>
             <groupId>com.baomidou</groupId>
