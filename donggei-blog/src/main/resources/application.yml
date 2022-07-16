@@ -20,3 +20,11 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
       id-type: auto
+
+oss:
+  accessKey: KvFC9NOcIA2lI8QcHylLhDJUPDzZkiC3fq6HtxZx
+  secretKey: FWLOEq4bKQ-lURFjImoMCEYDWkG731xAPzD46UyG
+  bucket: dg-blog
+  baseUrl: rexwq1dba.hb-bkt.clouddn.com
+
+ArticleViewCount: Article:viewCount

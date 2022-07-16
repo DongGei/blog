@@ -1,14 +1,21 @@
 package com.donggei.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
 import com.donggei.domain.ResponseResult;
 import com.donggei.domain.entity.LoginUser;
 import com.donggei.domain.entity.User;
 import com.donggei.domain.vo.BlogUserLoginVo;
+import com.donggei.domain.vo.LoginFormVo;
 import com.donggei.domain.vo.UserInfoVo;
+import com.donggei.mapper.UserMapper;
 import com.donggei.service.BlogLoginService;
 import com.donggei.utils.BeanCopyUtils;
 import com.donggei.utils.JwtUtil;
 import com.donggei.utils.RedisCache;
+
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,40 +26,38 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 
 /**
- * @className: BlogLoginServiceImpl
- * @description: TODO 类描述
- * @author: Dong
- * @date: 2022/7/11
- **/
-@Service
-public class BlogLoginServiceImpl implements BlogLoginService {
+ * 用户表(User)表服务实现类
+ *
+ * @author makejava
+ * @since 2022-05-13 21:31:25
+ */
+@Service("userService")
+public class BlogLoginServiceImpl extends ServiceImpl<UserMapper, User> implements BlogLoginService {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
     @Autowired
     private RedisCache redisCache;
     @Override
-    public ResponseResult login(User user) {
-        //UsernamePasswordAuthenticationToken 他实现了Authentication接口
+    public ResponseResult login(LoginFormVo user) {
+
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getUserName(),user.getPassword());
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
-        //判断是否认证通过
-        if (Objects.isNull(authenticate)){
-            throw new RuntimeException("密码错误");
+        if(Objects.isNull(authenticate)) {
+            throw new RuntimeException("用户名或密码错误！");
         }
-        //获取usreid 生成token
-        LoginUser loginUser = (LoginUser)authenticate.getPrincipal();
-        Long id = loginUser.getUser().getId();
-            String jwt = JwtUtil.createJWT(String.valueOf(id));
-        //用户信息存入redis
-        redisCache.setCacheObject("bloglogin:"+id,loginUser);
-        //token 和 用户info封装返回
-            //转换成Vo
+        //获取userid 生成token
+        LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
+        String userId = loginUser.getUser().getId().toString();
+        String jwt = JwtUtil.createJWT(userId);
+        //把用户信息存入redis
+        redisCache.setCacheObject("bloglogin:"+userId,loginUser);
         UserInfoVo userInfoVo = BeanCopyUtils.copyBean(loginUser.getUser(), UserInfoVo.class);
-        BlogUserLoginVo vo = new BlogUserLoginVo(jwt,userInfoVo);
-        return ResponseResult.okResult(vo);
+        BlogUserLoginVo blogUserLoginVo = new BlogUserLoginVo(jwt,userInfoVo);
+        return ResponseResult.okResult(blogUserLoginVo);
     }
+
+
 
     @Override
     public ResponseResult logout() {
@@ -63,6 +68,7 @@ public class BlogLoginServiceImpl implements BlogLoginService {
         Long userId = loginUser.getUser().getId();
         //删除redis中的用户信息
         redisCache.deleteObject("bloglogin:"+userId);
-        return ResponseResult.okResult();
+        return ResponseResult.okResult(200,"退出成功");
     }
 }
+

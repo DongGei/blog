@@ -9,10 +9,8 @@ import com.donggei.domain.entity.Category;
  * 分类表(Category)表服务接口
  *
  * @author makejava
- * @since 2022-07-10 20:05:28
+ * @since 2022-05-12 10:23:21
  */
 public interface CategoryService extends IService<Category> {
-
     ResponseResult getCategoryList();
 }
-

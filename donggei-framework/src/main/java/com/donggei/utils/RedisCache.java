@@ -5,6 +5,7 @@ import org.springframework.data.redis.core.BoundSetOperations;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -188,6 +189,11 @@ public class RedisCache
         redisTemplate.opsForHash().put(key, hKey, value);
     }
 
+
+    public  void incrementCacheMapValue(final String key, final String hKey, int v)
+    {
+        redisTemplate.opsForHash().increment(key, hKey, v);
+    }
     /**
      * 获取Hash中的数据
      *
@@ -203,7 +209,7 @@ public class RedisCache
 
     /**
      * 删除Hash中的数据
-     * 
+     *
      * @param key
      * @param hkey
      */

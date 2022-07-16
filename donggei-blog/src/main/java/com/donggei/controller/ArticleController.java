@@ -1,14 +1,13 @@
 package com.donggei.controller;
 
+import com.donggei.annotation.SystemLog;
 import com.donggei.domain.ResponseResult;
 import com.donggei.domain.entity.Article;
 import com.donggei.service.ArticleService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,4 +39,10 @@ public class ArticleController {
         return  articleService.getArticleDetail(id);
     }
 
+    @ApiOperation(value = "更新浏览次数")
+    @SystemLog(businessName = "更新浏览次数")
+    @PutMapping("/updateViewCount/{id}")
+    public ResponseResult articleList(@PathVariable("id")  Long id) {
+        return articleService.updateViewCount(id);
+    }
 }
