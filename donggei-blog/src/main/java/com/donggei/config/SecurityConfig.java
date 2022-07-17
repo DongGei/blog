@@ -45,6 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+
                 //关闭csrf
                 .csrf().disable()
                 //不通过Session获取SecurityContext
@@ -52,8 +53,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 // 对于登录接口 允许匿名访问
-                .antMatchers("/login").anonymous()
+                .antMatchers("/login","index.html","favicon.ico","/static/**","/index").anonymous()
                 .antMatchers("/logout").authenticated()
+
                 .antMatchers("/comment","/upload").authenticated()
                 // 除上面外的所有请求全部不需要认证即可访问
                 .anyRequest().permitAll();
