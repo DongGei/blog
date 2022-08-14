@@ -19,6 +19,7 @@
         <java.version>1.8</java.version>
     </properties>
     <dependencyManagement>
+<!--        Apache Spark shell 命令注入漏洞-->
         <dependencies>
             <!-- SpringBoot的依赖配置-->
             <dependency>
@@ -32,7 +33,7 @@
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
-                <version>1.2.33</version>
+                <version>1.2.83</version>
             </dependency>
             <!--jwt依赖-->
             <dependency>

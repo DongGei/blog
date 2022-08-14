@@ -24,7 +24,7 @@ public class UpdateViewCountJob {
     @Value("${ArticleViewCount}")
     private String ArticleViewCount;
 
-    @Scheduled(cron = "0/60 * * * * ?")
+    @Scheduled(cron = "0 0/10 * * * ?")
     public void updateViewCount(){
 
         //获取redis当中的数据

@@ -50,4 +50,17 @@ public class SystemConstants
      * 评论类型为：友联评论
      */
     public static final String LINK_COMMENT = "1";
+
+    /**
+     * 菜单类型: 菜单
+     */
+    public static final String MENU_TYPE_MENU = "C";
+    /**
+     * 菜单类型: 按钮
+     */
+    public static final String MENU_TYPE_BUTTON = "F";
+    /**
+     * 状态正常
+     */
+    public static final String STATUS_NORMAL = "0";
 }

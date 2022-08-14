@@ -1,4 +1,4 @@
-package com.donggei.domain.vo;
+package com.donggei.domain.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -12,7 +12,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentReplyVo {
+public class AddCommentDto {
 
     //文章id
     @ApiModelProperty(name = "articleId",value="文章id",required = true)

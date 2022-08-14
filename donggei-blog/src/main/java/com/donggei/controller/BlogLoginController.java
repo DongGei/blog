@@ -31,8 +31,6 @@ public class BlogLoginController {
     @PostMapping("/login")
     @SystemLog(businessName = "博客登录")
     public ResponseResult login(@RequestBody LoginFormVo user){
-
-
         if(!StringUtils.hasText(user.getUserName())) {
             //提示要传用名
             throw new SystemException(AppHttpCodeEnum.REQUIRE_USERNAME);

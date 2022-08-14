@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.donggei.constants.SystemConstants;
 import com.donggei.domain.ResponseResult;
+import com.donggei.domain.dto.AddCommentDto;
 import com.donggei.domain.entity.Comment;
 import com.donggei.domain.entity.User;
-import com.donggei.domain.vo.CommentReplyVo;
 import com.donggei.domain.vo.CommentVo;
 import com.donggei.domain.vo.PageVo;
 import com.donggei.enums.AppHttpCodeEnum;
@@ -75,14 +75,14 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
 
     @Override
-    public ResponseResult addComment(CommentReplyVo commentReplyVo) {
+    public ResponseResult addComment(AddCommentDto addCommentDto) {
         //评论内容不能为空
-        if(!StringUtils.hasText(commentReplyVo.getContent())){
+        if(!StringUtils.hasText(addCommentDto.getContent())){
             //结合前端响应
             throw new SystemException(AppHttpCodeEnum.CONTENT_NOT_NULL);
         }
         Comment comment = new Comment();
-        comment = BeanCopyUtils.copyBean(commentReplyVo,Comment.class);
+        comment = BeanCopyUtils.copyBean(addCommentDto,Comment.class);
         if(!Objects.isNull(comment)) {
             save(comment);
             return ResponseResult.okResult();

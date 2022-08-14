@@ -30,10 +30,13 @@ public class ArticleController {
         ResponseResult result =  articleService.hotArticleList();
         return result;
     }
+
     @GetMapping("/articleList")
+    @SystemLog(businessName = "获取文章列表")
     public ResponseResult articleList(Integer pageNum,Integer pageSize,Long categoryId) {
         return articleService.articleList(pageNum, pageSize, categoryId);
     }
+
     @GetMapping("/{id}")
     public ResponseResult getArticleDetail(@PathVariable("id") Long id){
         return  articleService.getArticleDetail(id);

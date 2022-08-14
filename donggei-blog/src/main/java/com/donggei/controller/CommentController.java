@@ -3,7 +3,7 @@ package com.donggei.controller;
 
 import com.donggei.constants.SystemConstants;
 import com.donggei.domain.ResponseResult;
-import com.donggei.domain.vo.CommentReplyVo;
+import com.donggei.domain.dto.AddCommentDto;
 import com.donggei.service.CommentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -46,9 +46,9 @@ public class CommentController {
     }
 
     @ApiOperation(value = "文章评论接口")
-    @ApiImplicitParam(name = "commentReplyVo",value = "文章评论",required = true,dataType = "CommentReplyVo")
+    @ApiImplicitParam(name = "commentReplyVo",value = "文章评论",required = true,dataType = "AddCommentDto")
     @PostMapping
-    public ResponseResult addComment(@RequestBody CommentReplyVo commentReplyVo){
-        return commentService.addComment(commentReplyVo);
+    public ResponseResult addComment(@RequestBody AddCommentDto addCommentDto){
+        return commentService.addComment(addCommentDto);
     }
 }
