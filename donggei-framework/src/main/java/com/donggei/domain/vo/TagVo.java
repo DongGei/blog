@@ -5,16 +5,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @className: CategoryVO
+ * @className: TagVo
  * @description: TODO 类描述
  * @author: Dong
- * @date: 2022/7/10
+ * @date: 2022/8/31
  **/
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class CategoryVo {
-private Long Id;
-private String name;
-private String description;
+@AllArgsConstructor
+public class TagVo {
+    /**
+     * 主键
+     */
+    private Long id;
+    private String name;
+    private String remark;
 }

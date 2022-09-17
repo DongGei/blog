@@ -3,10 +3,9 @@ package com.donggei.controller;
 import com.donggei.annotation.SystemLog;
 import com.donggei.domain.ResponseResult;
 import com.donggei.domain.entity.LoginUser;
+import com.donggei.domain.entity.Menu;
 import com.donggei.domain.entity.User;
-import com.donggei.domain.vo.AdminUserInfoVo;
-import com.donggei.domain.vo.LoginFormVo;
-import com.donggei.domain.vo.UserInfoVo;
+import com.donggei.domain.vo.*;
 import com.donggei.enums.AppHttpCodeEnum;
 import com.donggei.exception.SystemException;
 
@@ -15,6 +14,7 @@ import com.donggei.service.LoginService;
 import com.donggei.service.MenuService;
 import com.donggei.service.RoleService;
 import com.donggei.utils.BeanCopyUtils;
+import com.donggei.utils.RedisCache;
 import com.donggei.utils.SecurityUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -26,17 +26,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(tags = "博客页面登录")
+@Api(tags = "博客后台页面登录")
 @RestController
 @RequestMapping
 public class LoginController {
     @Autowired
-    private LoginService LoginService;
+    private LoginService loginService;
 
     @Autowired
     private MenuService menuService;
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private RedisCache redisCache;
 
     @ApiOperation(value = "博客登录")
     @ApiImplicitParam(name = "user",value = "用户登录信息",required = true,dataType = "LoginVo")
@@ -53,9 +55,12 @@ public class LoginController {
         }
 //        System.out.println(passwordEncoder.encode("1234"));
 //        System.out.println(AppHttpCodeEnum.SUCCESS);
-        return LoginService.login(user);
+        return loginService.login(user);
     }
-
+    @PostMapping("/user/logout")
+    public ResponseResult logout(){
+        return loginService.logout();
+    }
     @GetMapping("/getInfo")
     public ResponseResult<AdminUserInfoVo> getInfo(){
         //获取当前登入的用户
@@ -64,8 +69,8 @@ public class LoginController {
         //根据用户ID查询权限信息
        List<String> perms= menuService.selectPermsByUserId(user.getId());
         //根据用户ID查询角色信息
-     //   List<String> roleKeyList=roleService.selectRoleKeyByUserId(user.getId());
-        List<String> roleKeyList=null;
+        List<String> roleKeyList=roleService.selectRoleKeyByUserId(user.getId());
+
 
         //获取用户信息
         UserInfoVo userInfoVo = BeanCopyUtils.copyBean(user, UserInfoVo.class);
@@ -77,5 +82,21 @@ public class LoginController {
 
 
     }
+
+
+
+    @GetMapping("/getRouters")
+    public ResponseResult<RoutersVo> getRouters(){
+        //获取当前登入的用户
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        User user = loginUser.getUser();
+        //查询menu
+       List<MenuVo> menuVoList=menuService.selectRouterMenuTreeByUserId(user.getId());
+
+        //封装数据返回
+        RoutersVo routersVo = new RoutersVo(menuVoList);
+        return ResponseResult.okResult(routersVo);
+    }
+
 
 }

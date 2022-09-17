@@ -4,17 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
- * @className: CategoryVO
+ * @className: RoutersVo
  * @description: TODO 类描述
  * @author: Dong
- * @date: 2022/7/10
+ * @date: 2022/8/14
  **/
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class CategoryVo {
-private Long Id;
-private String name;
-private String description;
+@AllArgsConstructor
+public class RoutersVo {
+    private List<MenuVo> menus;
 }

@@ -25,7 +25,7 @@ mybatis-plus:
 oss:
   accessKey: KvFC9NOcIA2lI8QcHylLhDJUPDzZkiC3fq6HtxZx
   secretKey: FWLOEq4bKQ-lURFjImoMCEYDWkG731xAPzD46UyG
-  bucket: dg-blog
-  baseUrl: rexwq1dba.hb-bkt.clouddn.com
+  bucket: testd-blog
+  baseUrl: oss.donggei.top
 
 ArticleViewCount: Article:viewCount

@@ -2,6 +2,7 @@ package com.donggei.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.donggei.domain.entity.Menu;
+import com.donggei.domain.vo.MenuVo;
 
 import java.util.List;
 
@@ -15,6 +16,10 @@ import java.util.List;
 public interface MenuMapper extends BaseMapper<Menu> {
 
     List<String> selectPermsByUserId(Long userId);
+
+    List<Menu> selectAllRouterMenu();
+
+    List<Menu> selectRouterMenuTreeByUserId(Long userId);
 }
 
 

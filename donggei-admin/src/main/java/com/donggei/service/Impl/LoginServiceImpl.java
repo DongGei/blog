@@ -2,13 +2,12 @@ package com.donggei.service.Impl;
 
 import com.donggei.domain.ResponseResult;
 import com.donggei.domain.entity.LoginUser;
-import com.donggei.domain.vo.BlogUserLoginVo;
 import com.donggei.domain.vo.LoginFormVo;
-import com.donggei.domain.vo.UserInfoVo;
 import com.donggei.service.LoginService;
-import com.donggei.utils.BeanCopyUtils;
+
 import com.donggei.utils.JwtUtil;
 import com.donggei.utils.RedisCache;
+import com.donggei.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -56,13 +55,11 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public ResponseResult logout() {
-        //获取token 解析获取userid
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
-        //获取userid
-        Long userId = loginUser.getUser().getId();
-        //删除redis中的用户信息
-        redisCache.deleteObject("login:"+userId);
-        return ResponseResult.okResult(200,"退出成功");
+        //获取用户id
+        Long userId = SecurityUtils.getUserId();
+        //在redis中删除 表示一个没有登入的状态
+        String redisKey="login"+userId;
+        redisCache.deleteObject(redisKey);
+        return ResponseResult.okResult();
     }
 }
