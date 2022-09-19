@@ -1,6 +1,7 @@
 package com.donggei.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.donggei.domain.ResponseResult;
 import com.donggei.domain.entity.Role;
 
 import java.util.List;
@@ -15,5 +16,13 @@ import java.util.List;
 public interface RoleService extends IService<Role> {
 
     List<String> selectRoleKeyByUserId(Long id);
+
+    List<Role> selectRoleAll();
+    void insertRole(Role role);
+    ResponseResult selectRolePage(Role role, Integer pageNum, Integer pageSize);
+
+    void updateRole(Role role);
+
+    List<Long> selectRoleIdByUserId(Long userId);
 }
 

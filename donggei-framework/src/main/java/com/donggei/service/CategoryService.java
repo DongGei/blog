@@ -5,6 +5,7 @@ import com.donggei.domain.ResponseResult;
 import com.donggei.domain.dto.AddCategoryDTO;
 import com.donggei.domain.dto.UpdateCategoryDTO;
 import com.donggei.domain.entity.Category;
+import com.donggei.domain.vo.PageVo;
 
 import java.util.List;
 
@@ -26,4 +27,6 @@ public interface CategoryService extends IService<Category> {
     ResponseResult getCategoryById(Long id);
 
     ResponseResult updateCategory(UpdateCategoryDTO updateCategoryDTO);
+
+    PageVo selectCategoryPage(Category category, Integer pageNum, Integer pageSize);
 }

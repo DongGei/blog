@@ -63,4 +63,9 @@ public class SystemConstants
      * 状态正常
      */
     public static final String STATUS_NORMAL = "0";
+
+    /**
+     * 改用户为管理员
+     */
+    public static final String ADMIN = "1";
 }

@@ -1,6 +1,6 @@
 package com.donggei.controller;
 
-import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
+
 import com.donggei.domain.ResponseResult;
 import com.donggei.domain.dto.TagListDto;
 import com.donggei.domain.entity.Tag;
@@ -52,5 +52,9 @@ public class TagController {
     @PutMapping("")
     public ResponseResult<TagVo> modifyTag(@RequestBody TagListDto tagListDto){
         return tagService.modifyTag(tagListDto);
+    }
+    @GetMapping("/listAllTag")
+    public ResponseResult listAllTag(){
+        return tagService.getAllTag();
     }
 }

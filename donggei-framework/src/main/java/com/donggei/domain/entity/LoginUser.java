@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @className: LoginUser
@@ -20,9 +21,11 @@ import java.util.Collection;
 public class LoginUser implements UserDetails {
 
     private User user;
-
+    private List<String> permissions;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        // SpringSecurity 默认的获取权限的方法 可以用List<String> permissions 转化成Collection<? extends GrantedAuthority> 返回
+        // 但是!! 现在我们用自己的方法 直接写null
         return null;
     }
 
