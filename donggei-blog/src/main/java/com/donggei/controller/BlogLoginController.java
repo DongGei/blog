@@ -49,5 +49,4 @@ public class BlogLoginController {
     public ResponseResult logout(){
         return blogLoginService.logout();
     }
-
 }

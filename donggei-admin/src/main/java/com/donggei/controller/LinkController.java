@@ -46,6 +46,7 @@ public class LinkController {
 
     @PutMapping("/changeLinkStatus")
     public ResponseResult changeLinkStatus(@RequestBody Link link){
+
         linkService.updateById(link);
         return ResponseResult.okResult();
     }

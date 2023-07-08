@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 /**
  * 友链(Link)表实体类
  *
- * @author makejava
+ * @author dzz
  * @since 2022-07-11 18:04:10
  */
 @SuppressWarnings("serial")

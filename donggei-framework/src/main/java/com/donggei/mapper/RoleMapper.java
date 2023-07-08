@@ -6,14 +6,9 @@ import com.donggei.domain.entity.Role;
 import java.util.List;
 
 
-/**
- * 角色信息表(Role)表数据库访问层
- *
- * @author makejava
- * @since 2022-08-13 17:01:14
- */
-public interface RoleMapper extends BaseMapper<Role> {
 
+public interface RoleMapper extends BaseMapper<Role> {
+    //根据用户id查询角色信息
     List<String> selectRoleKeyByUserId(Long userId);
 
     List<Long> selectRoleIdByUserId(Long userId);

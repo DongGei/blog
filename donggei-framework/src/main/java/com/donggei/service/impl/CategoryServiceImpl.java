@@ -29,12 +29,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-/**
- * 分类表(Category)表服务实现类
- *
- * @author makejava
- * @since 2022-05-12 10:23:22
- */
+
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
     @Autowired
@@ -160,6 +155,15 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         pageVo.setTotal(page.getTotal());
         pageVo.setRows(categories);
         return pageVo;
+    }
+
+    @Override
+    public List<CategoryVo> listAllCategory() {
+        LambdaQueryWrapper<Category> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Category::getStatus, SystemConstants.NORMAL);
+        List<Category> list = list(wrapper);
+        List<CategoryVo> categoryVos = BeanCopyUtils.copyBeanList(list, CategoryVo.class);
+        return categoryVos;
     }
 }
 

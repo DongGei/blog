@@ -1,8 +1,10 @@
 package com.donggei.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.donggei.constants.SystemConstants;
 import com.donggei.domain.ResponseResult;
 import com.donggei.domain.entity.Role;
 import com.donggei.domain.entity.RoleMenu;
@@ -24,7 +26,7 @@ import java.util.stream.Collectors;
 /**
  * 角色信息表(Role)表服务实现类
  *
- * @author makejava
+ * @author dzz
  * @since 2022-08-13 17:01:22
  */
 @Service("roleService")
@@ -45,7 +47,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public List<Role> selectRoleAll() {
-        return null;
+        return list(Wrappers.<Role>lambdaQuery().eq(Role::getStatus, SystemConstants.NORMAL));
     }
 
     @Override

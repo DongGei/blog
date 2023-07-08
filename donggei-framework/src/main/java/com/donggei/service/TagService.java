@@ -11,7 +11,7 @@ import com.donggei.domain.vo.TagVo;
 /**
  * 标签(Tag)表服务接口
  *
- * @author makejava
+ * @author dzz
  * @since 2022-07-30 21:15:56
  */
 public interface TagService extends IService<Tag> {

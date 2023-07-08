@@ -16,6 +16,7 @@ import com.donggei.service.ArticleTagService;
 import com.donggei.service.CategoryService;
 import com.donggei.utils.BeanCopyUtils;
 import com.donggei.utils.RedisCache;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,11 +25,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 
 @Service
+@Slf4j
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
     @Autowired
     private ArticleTagService articleTagService;
@@ -40,6 +43,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private RedisCache redisCache;
     @Value("${ArticleViewCount}")
     private String ArticleViewCount;
+
+    @Autowired
+    private ArticleMapper articleMapper;
+
 
     @Override
     public ResponseResult hotArticleList() {
@@ -58,12 +65,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                      return article.setViewCount(viewCount.longValue());
                 }
         ).collect(Collectors.toList());
-        //bean拷贝
-//        for(Article article:articles) {
-//            HotArticleVo articleVo = new HotArticleVo();
-//            BeanUtils.copyProperties(article,articleVo);
-//            articleVos.add(articleVo);
-//        }
+
 
         //stream流
         List<HotArticleVo> articleVos = BeanCopyUtils.copyBeanList(collect,HotArticleVo.class);
@@ -81,15 +83,22 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         lambdaQueryWrapper.eq(Article::getStatus,SystemConstants.ARTICLE_STATUS_NORMAL);
         //对isTop进行降序排列
         lambdaQueryWrapper.orderByDesc(Article::getIsTop);
+        lambdaQueryWrapper.orderByDesc(Article::getCreateTime);
 
         Page<Article> page = new Page<>(pageNum,pageSize);
         page(page,lambdaQueryWrapper);
         List<Article> articles = page.getRecords();
+
         List<Article> collect = articles.stream()
                 .peek(article -> {
+
                     Integer viewCount = redisCache.getCacheMapValue(ArticleViewCount, article.getId().toString());
+
                     article.setViewCount(viewCount.longValue());
-                    article.setCategoryName(categoryService.getById(article.getCategoryId()).getName());
+                    log.info("setCategoryName======================"+article.getCategoryId().toString()+"viewCount======================");
+                    if (article.getCategoryId()!=null) {
+                        article.setCategoryName(categoryService.getById(article.getCategoryId()).getName());
+                    }
                 }).collect(Collectors.toList());
 
         List<ArticleListVo> articleListVos = BeanCopyUtils.copyBeanList(collect,ArticleListVo.class);
@@ -134,12 +143,32 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         save(article);
 
 
+
+
         List<ArticleTag> articleTags = articleDto.getTags().stream()
                 .map(tagId -> new ArticleTag(article.getId(), tagId))
                 .collect(Collectors.toList());
 
         //添加 博客和标签的关联
         articleTagService.saveBatch(articleTags);
+
+        //下面是更新redis数据
+
+        System.out.println("程序初始化"+ArticleViewCount);
+
+        //查询博客信息 id viewCount
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper();
+        queryWrapper.select(Article::getId,Article::getViewCount);
+        List<Article> articles = articleMapper.selectList(queryWrapper);
+        Map<String, Integer> viewCountMap = articles.parallelStream()
+                .collect(Collectors.toMap(article2 -> article2.getId().toString(),
+                        article2 -> article.getViewCount().intValue()));
+
+        //存入Redis  变成map集合存入
+        redisCache.setCacheMap(ArticleViewCount,viewCountMap);
+
+
+
         return ResponseResult.okResult();
     }
 

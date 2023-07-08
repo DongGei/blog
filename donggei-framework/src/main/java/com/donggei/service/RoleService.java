@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 角色信息表(Role)表服务接口
  *
- * @author makejava
+ * @author dzz
  * @since 2022-08-13 17:01:18
  */
 public interface RoleService extends IService<Role> {

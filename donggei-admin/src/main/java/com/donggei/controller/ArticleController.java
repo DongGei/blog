@@ -25,7 +25,7 @@ public class ArticleController {
     private ArticleService articleService;
 
     @GetMapping("list")
-    public ResponseResult list(Article article, Integer pageNum, Integer pageSize) {
+    public ResponseResult list(Article article,Integer pageNum,Integer pageSize){
         PageVo pageVo = articleService.selectArticlePage(article, pageNum, pageSize);
         return ResponseResult.okResult(pageVo);
     }

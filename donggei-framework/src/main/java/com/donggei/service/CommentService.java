@@ -9,7 +9,7 @@ import com.donggei.domain.entity.Comment;
 /**
  * 评论表(Comment)表服务接口
  *
- * @author makejava
+ * @author dzz
  * @since 2022-05-14 23:36:50
  */
 public interface CommentService extends IService<Comment> {

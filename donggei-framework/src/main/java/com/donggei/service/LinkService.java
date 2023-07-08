@@ -9,7 +9,7 @@ import com.donggei.domain.vo.PageVo;
 /**
  * 友链(Link)表服务接口
  *
- * @author makejava
+ * @author dzz
  * @since 2022-05-13 20:56:47
  */
 public interface LinkService extends IService<Link> {

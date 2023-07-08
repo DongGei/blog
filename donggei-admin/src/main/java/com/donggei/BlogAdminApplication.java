@@ -16,6 +16,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class BlogAdminApplication {
     public static void main(String[] args) {
+        String s = new String("sdsa");
         SpringApplication.run(BlogAdminApplication.class, args);
     }
 }

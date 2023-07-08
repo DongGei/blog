@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 /**
  * 评论表(Comment)表实体类
  *
- * @author makejava
+ * @author dzz
  * @since 2022-05-14 23:36:50
  */
 @SuppressWarnings("serial")

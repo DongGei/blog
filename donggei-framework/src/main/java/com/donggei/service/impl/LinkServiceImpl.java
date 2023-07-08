@@ -22,7 +22,7 @@ import java.util.Objects;
 /**
  * 友链(Link)表服务实现类
  *
- * @author makejava
+ * @author dzz
  * @since 2022-05-13 20:56:47
  */
 @Service("linkService")

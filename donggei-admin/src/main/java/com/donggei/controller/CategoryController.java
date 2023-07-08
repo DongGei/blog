@@ -36,9 +36,6 @@ public class CategoryController {
     CategoryService categoryService;
     @Autowired
     TagService tagService;
-
-
-
     @PutMapping
     public ResponseResult edit(@RequestBody Category category){
         categoryService.updateById(category);
@@ -71,7 +68,8 @@ public class CategoryController {
     }
     @GetMapping("/listAllCategory")
     public ResponseResult listAllCategory(){
-        return categoryService.getCategoryList();
+        List<CategoryVo> list = categoryService.listAllCategory();
+        return ResponseResult.okResult(list);
     }
     @PreAuthorize("@ps.hasPermission('content:category:export')")
     @GetMapping("/export")

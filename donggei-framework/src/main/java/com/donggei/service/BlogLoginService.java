@@ -10,7 +10,7 @@ import com.donggei.domain.vo.LoginFormVo;
 /**
  * 用户表(User)表服务接口
  *userService
- * @author makejava
+ * @author dzz
  * @since 2022-05-13 21:31:25
  */
 public interface BlogLoginService extends IService<User> {
