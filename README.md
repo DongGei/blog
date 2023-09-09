@@ -1,1 +1,1 @@
-myblogspringboot+redis+mybatis后端博客项目
+myblog 博客项目
